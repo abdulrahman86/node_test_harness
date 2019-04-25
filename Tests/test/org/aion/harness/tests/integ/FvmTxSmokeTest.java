@@ -87,10 +87,6 @@ public class FvmTxSmokeTest {
         rpc = null;
         listener = null;
         destroyLogs();
-
-        // If we close and reopen the DB too quickly we get an error... this sleep tries to avoid
-        // this issue so that the DB lock is released in time.
-        Thread.sleep(TimeUnit.SECONDS.toMillis(30));
         ProhibitConcurrentHarness.releaseTestLock();
     }
 

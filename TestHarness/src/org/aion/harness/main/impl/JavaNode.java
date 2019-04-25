@@ -17,6 +17,7 @@ import org.aion.harness.misc.Assumptions;
 import org.aion.harness.result.FutureResult;
 import org.aion.harness.result.LogEventResult;
 import org.aion.harness.result.Result;
+import org.aion.harness.sys.LeveldbLockAwaiter;
 import org.aion.harness.util.*;
 import org.apache.commons.io.FileUtils;
 
@@ -137,6 +138,7 @@ public final class JavaNode implements LocalNode {
         builder.redirectOutput(outputLog);
         builder.redirectError(this.logManager.getCurrentErrorLogFile());
 
+        new LeveldbLockAwaiter(this.configurations.getDatabase().getAbsolutePath()).await();
         this.runningKernel = builder.start();
 
         return waitForRpcReadyOrError(outputLog);
