@@ -29,7 +29,7 @@ import org.aion.harness.util.SimpleLog;
  */
 public class HarnessLock {
     private final String name;
-    private final SimpleLog log;
+    private final static SimpleLog log = new SimpleLog(HarnessLock.class.getName());
     private final String fsPrefix;
 
     private volatile FileChannel channel;
@@ -57,7 +57,7 @@ public class HarnessLock {
      */
     public HarnessLock(String prefix, String name) throws IOException {
         this.name = name;
-        this.log = new SimpleLog(getClass().getName());
+//        this.log = new SimpleLog(getClass().getName());
         this.lock = null;
         this.fsPrefix = prefix;
     }
@@ -229,6 +229,9 @@ public class HarnessLock {
             }
         }
 
-        return new RandomAccessFile(lockFile, "rw");
+        RandomAccessFile ret = new RandomAccessFile(lockFile, "rw");
+        log.log("HarnessLock#getLockFileIfFilesystemOk: " + lockFile.getCanonicalPath());
+        System.out.println("HarnessLock#getLockFileIfFilesystemOk: " + lockFile.getCanonicalPath());
+        return ret;
     }
 }

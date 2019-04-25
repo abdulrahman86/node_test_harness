@@ -22,11 +22,11 @@ repositories {
 
 dependencies {
     api fileTree(dir: 'lib', include: ['*.jar'])
+    api project(':TestHarness') 
 
     testImplementation 'junit:junit:4.12'
     testImplementation fileTree(dir: 'lib', include: ['*.jar'])
     testImplementation fileTree(dir: '../TestHarness/lib', include: ['*.jar'])
-    testImplementation project(':TestHarness') 
 }
 
 task copyCustomConfig(type: Copy) { 
@@ -46,8 +46,7 @@ ciTest.dependsOn copyCustomConfig
 ciTest.dependsOn waitForPorts
 ciTest.dependsOn test
 
-build.dependsOn.remove(test)
-
+build.dependsOn.remove('check')  // don't run tests on build
 test.mustRunAfter copyCustomConfig
 test.mustRunAfter waitForPorts
 test.outputs.upToDateWhen {false} // make test target always run even if source didn't change

@@ -88,7 +88,7 @@ public class JavaApiSmokeTest {
         // If we close and reopen the DB too quickly we get an error... this sleep tries to avoid
         // this issue so that the DB lock is released in time.
         Thread.sleep(TimeUnit.SECONDS.toMillis(30));
-        ProhibitConcurrentHarness.acquireTestLock();
+        ProhibitConcurrentHarness.releaseTestLock();
     }
 
     @Test(timeout = 300_000 /* millis */)
